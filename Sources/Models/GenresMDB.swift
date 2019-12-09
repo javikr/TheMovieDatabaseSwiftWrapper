@@ -29,8 +29,8 @@ open class GenresMDB: KeywordsMDB{
   }
   
   ///Get the list of movies for a particular genre by id. By default, only movies with 10 or more votes are included.
-  open class func genre_movies(genreId: Int, include_adult_movies: Bool, language: String?, completion: @escaping (_ clientReturn: ClientReturn, _ data: [MovieMDB]?) -> ()) -> (){
-    Client.Genres(listType: "movies", language: language, genreId: genreId, page: nil, include_all: true, include_adult: include_adult_movies){
+  open class func genre_movies(genreId: Int, include_adult_movies: Bool, language: String?, page: Double?, completion: @escaping (_ clientReturn: ClientReturn, _ data: [MovieMDB]?) -> ()) -> (){
+    Client.Genres(listType: "movies", language: language, genreId: genreId, page: page, include_all: true, include_adult: include_adult_movies){
       apiReturn in
       var movies: [MovieMDB]?
       if let json = apiReturn.json?["results"] {
@@ -42,8 +42,8 @@ open class GenresMDB: KeywordsMDB{
   }
   
   ///Get the list of movies for a particular genre by id. By default, only movies with 10 or more votes are included.
-  open class func genre_shows(genreId: Int, include_adult_movies: Bool, language: String?, completion: @escaping (_ clientReturn: ClientReturn, _ data: [TVMDB]?) -> ()) -> (){
-    Client.Genres(listType: "tv", language: language, genreId: genreId, page: nil, include_all: true, include_adult: nil){
+  open class func genre_shows(genreId: Int, include_adult_movies: Bool, language: String?, page: Double?, completion: @escaping (_ clientReturn: ClientReturn, _ data: [TVMDB]?) -> ()) -> (){
+    Client.Genres(listType: "tv", language: language, genreId: genreId, page: page, include_all: true, include_adult: nil){
       apiReturn in
       var shows: [TVMDB]?
       if let json = apiReturn.json?["results"] {
