@@ -159,17 +159,5 @@ open class DiscoverMovieMDB: DiscoverMDB{
       completion(apiReturn, data)
     }
   }
-  
-  ///Get the list of movies for a particular genre by id. By default, only movies with 10 or more votes are included.
-  open class func genreList(genreId: Int, page: Double?, include_all_movies: Bool? = nil, include_adult: Bool? = nil, movieList: Bool? = nil, completion: @escaping (_ clientReturn: ClientReturn, _ data: [MovieMDB]?) -> ()) -> (){
-    Client.Genres(listType: "movie", language: nil, genreId: genreId, page: page, include_all_movies: include_all_movies, include_adult: nil, movieList: true){
-      apiReturn in
-      var data: [MovieMDB]?
-      if let json = apiReturn.json?["results"] {
-        data = MovieMDB.initialize(json: json)
-      }
-      completion(apiReturn, data)
-    }
-  }
 }
 
