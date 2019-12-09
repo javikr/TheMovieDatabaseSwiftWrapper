@@ -9,13 +9,14 @@
 import Foundation
 
 extension Client{  
-  static func Genres(listType: String, language: String?, genreId: Int, page: Double?, include_all_movies: Bool?, include_adult: Bool?, movieList: Bool?, completion: @escaping (ClientReturn) -> ()) -> (){
+  static func Genres(listType: String, language: String?, genreId: Int?, page: Double?, include_all: Bool?, include_adult: Bool?, completion: @escaping (ClientReturn) -> ()) -> (){
     var parameters: [String : AnyObject] = [:]
     var url = "";
-    if(movieList == false || movieList == nil){
-      url = "https://api.themoviedb.org/3/genre/" + listType + "/list";
-    }else{
-      url = "https://api.themoviedb.org/3/genre/" + String(genreId) + "/movies";
+    
+    if let genreId = genreId {
+      url = "https://api.themoviedb.org/3/genre/" + String(genreId) + "/" + listType
+    } else {
+      url = "https://api.themoviedb.org/3/genre/" + listType + "/list"
     }
     
     if(language != nil){
@@ -25,8 +26,8 @@ extension Client{
     if(page != nil){
       parameters["page"] = page as AnyObject?
     }
-    if(include_all_movies != nil){
-      parameters["include_all_movies"] = include_all_movies as AnyObject?
+    if(include_all != nil){
+      parameters["include_all_movies"] = include_all as AnyObject?
     }
     if(include_adult != nil){
       parameters["include_adult"] = include_adult as AnyObject?
