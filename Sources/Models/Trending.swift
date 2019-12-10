@@ -38,8 +38,8 @@ open class TrendingMDB: ArrayObject {
     /// - Parameters:
     ///   - mediaType: TV or Movie
     ///   - timeWindow: Day or Week
-    public class func trending(mediaType: TrendingMediaType, timeWindow: TrendingTimeWindow, completionHandler: @escaping (ClientReturn, _ movieData: [MovieMDB]?, _ tvData: [TVMDB]?) -> ()) -> (){
-        Client.trending(baseURL: mediaType.rawValue + "/" + timeWindow.rawValue, completion: {
+  public class func trending(mediaType: TrendingMediaType, timeWindow: TrendingTimeWindow, page: Int = 1, completionHandler: @escaping (ClientReturn, _ movieData: [MovieMDB]?, _ tvData: [TVMDB]?) -> ()) -> (){
+      Client.trending(baseURL: mediaType.rawValue + "/" + timeWindow.rawValue, page: page, completion: {
             data in
             if mediaType == .tv {
                 completionHandler(data, nil, TVMDB.initialize(json: (data.json?["results"])!))
