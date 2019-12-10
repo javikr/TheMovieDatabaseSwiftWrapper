@@ -174,8 +174,8 @@ extension MovieMDB{
   }
   
   ///Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
-  public class func nowplaying(language: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
-    Client.Movies("now_playing",  page: page, language: language){
+  public class func nowplaying(language: String? = nil, region: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
+    Client.Movies("now_playing",  page: page, language: language, region: region){
       apiReturn in
       var movie = [MovieMDB]()
       if let json = apiReturn.json?["results"] {
