@@ -39,14 +39,18 @@ open class TrendingMDB: ArrayObject {
     ///   - mediaType: TV or Movie
     ///   - timeWindow: Day or Week
   public class func trending(mediaType: TrendingMediaType, timeWindow: TrendingTimeWindow, page: Int = 1, completionHandler: @escaping (ClientReturn, _ movieData: [MovieMDB]?, _ tvData: [TVMDB]?) -> ()) -> (){
-      Client.trending(baseURL: mediaType.rawValue + "/" + timeWindow.rawValue, page: page, completion: {
-            data in
-            if mediaType == .tv {
-                completionHandler(data, nil, TVMDB.initialize(json: (data.json?["results"])!))
-            } else if mediaType == .movie {
-                completionHandler(data, MovieMDB.initialize(json: (data.json?["results"])!), nil)
-            }
-        })
-    }
-
+    Client.trending(baseURL: mediaType.rawValue + "/" + timeWindow.rawValue, page: page, completion: {
+          data in
+          guard let results = data.json?["results"] else {
+              completionHandler(data, nil, nil)
+              return
+          }
+      
+          if mediaType == .tv {
+              completionHandler(data, nil, TVMDB.initialize(json: results))
+          } else if mediaType == .movie {
+              completionHandler(data, MovieMDB.initialize(json: results), nil)
+          }
+      })
+  }
 }
