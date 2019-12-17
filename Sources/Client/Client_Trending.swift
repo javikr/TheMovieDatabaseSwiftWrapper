@@ -2,10 +2,19 @@ import Foundation
 
 extension Client{
 
-  static func trending(baseURL: String, page: Int, completion: @escaping (ClientReturn) -> ()) -> (){
+  static func trending(baseURL: String, page: Int, language: String?, region: String?, completion: @escaping (ClientReturn) -> ()) -> (){
 
     let url = "https://api.themoviedb.org/3/trending/" + baseURL
-    networkRequest(url: url, parameters: ["page": String(page) as AnyObject]){
+    
+    var parameters: [String : AnyObject] = [:]
+    
+    parameters["page"] = page as AnyObject?
+
+    if(language != nil){
+      parameters["language"] = language as AnyObject?
+    }
+    
+    networkRequest(url: url, parameters: parameters){
       apiReturn in
       if(apiReturn.error == nil){
         completion(apiReturn)
