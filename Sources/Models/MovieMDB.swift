@@ -9,11 +9,11 @@
 import Foundation
 
 public enum MovieQueryType: String{
-	
-	case nowplaying = "now_playing"
-	case toprated = "top_rated"
-	case upcoming = "upcoming"
-	case popular = "popular"
+  
+  case nowplaying = "now_playing"
+  case toprated = "top_rated"
+  case upcoming = "upcoming"
+  case popular = "popular"
 }
 
 extension MovieMDB{
@@ -186,8 +186,8 @@ extension MovieMDB{
   }
   
   ///Get the list of popular movies on The Movie Database. This list refreshes every day.
-  public class func popular(language: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
-    Client.Movies("popular",  page: page, language: language){
+    public class func popular(language: String? = nil, region: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
+        Client.Movies("popular",  page: page, language: language, region: region){
       apiReturn in
       var movie = [MovieMDB]()
       if let json = apiReturn.json?["results"] {
@@ -198,8 +198,8 @@ extension MovieMDB{
   }
   
   ///Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes. This list refreshes every day.
-  public class func toprated(language: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
-    Client.Movies("top_rated",  page: page, language: language){
+  public class func toprated(language: String? = nil, region: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
+    Client.Movies("top_rated",  page: page, language: language, region: region){
       apiReturn in
       var movie: [MovieMDB]?
       if let json = apiReturn.json?["results"] {
@@ -210,7 +210,7 @@ extension MovieMDB{
   }
   
   ///Get the list of upcoming movies by release date. This list refreshes every day.
-  public class func upcoming(page: Int?, language: String?  = nil, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
+  public class func upcoming(page: Int?, language: String? = nil, region: String? = nil, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
     Client.Movies("upcoming",  page: page, language: language){
       apiReturn in
       var movie: [MovieMDB]?
@@ -220,20 +220,20 @@ extension MovieMDB{
       completion(apiReturn, movie)
     }
   }
-	
-	
-	/// Retrive a list of movies using the `MovieQueryType`
+  
+  
+  /// Retrive a list of movies using the `MovieQueryType`
   public class func query(queryType: MovieQueryType, language: String? = nil, page: Int?, region: String? = nil, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
     Client.Movies(queryType.rawValue,  page: page, language: language, region: region){
-			apiReturn in
+      apiReturn in
       var movie: [MovieMDB]?
       if let json = apiReturn.json?["results"] {
         movie = MovieMDB.initialize(json: json)
       }
-			completion(apiReturn, movie)
-		}
-	}
-	
+      completion(apiReturn, movie)
+    }
+  }
+  
   /**
    *  Retrive data by append multiple movie methods. Initlization of object have to be done manually. Exepect MovieDetailedMDB
    */
