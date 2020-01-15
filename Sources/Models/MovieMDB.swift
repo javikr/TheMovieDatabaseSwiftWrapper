@@ -199,7 +199,7 @@ extension MovieMDB{
   
   ///Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes. This list refreshes every day.
   public class func toprated(language: String? = nil, region: String? = nil, page: Int?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
-    Client.Movies("top_rated",  page: page, language: language, region: region){
+    Client.Movies("top_rated", page: page, language: language, region: region){
       apiReturn in
       var movie: [MovieMDB]?
       if let json = apiReturn.json?["results"] {
@@ -211,7 +211,7 @@ extension MovieMDB{
   
   ///Get the list of upcoming movies by release date. This list refreshes every day.
   public class func upcoming(page: Int?, language: String? = nil, region: String? = nil, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB]?) -> ()) -> (){
-    Client.Movies("upcoming",  page: page, language: language){
+    Client.Movies("upcoming",  page: page, language: language, region: region){
       apiReturn in
       var movie: [MovieMDB]?
       if let json = apiReturn.json?["results"] {
