@@ -29,7 +29,7 @@ extension Client{
         }
       case .certification_lte(let certification_lte):
         if (certification_lte != nil){
-          parameters["certification_lte"] = certification_lte as AnyObject?;
+          parameters["certification.lte"] = certification_lte as AnyObject?;
         }
       case . include_adult(let  include_adult):
         if ( include_adult != nil){
@@ -141,7 +141,7 @@ extension Client{
         }
       case .certification_gte(let certification_gte):
         if (certification_gte != nil){
-          parameters["certification_gte"] = certification_gte as AnyObject?;
+          parameters["certification.gte"] = certification_gte as AnyObject?;
         }
       }
     }
