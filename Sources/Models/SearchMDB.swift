@@ -91,28 +91,26 @@ public struct SearchMDB{
   }
   
   ///Search multiple models in a single request. Multi search currently supports searching for movies, tv shows and people in a single request.
-  public static func multiSearch(query: String, page: Int?, includeAdult: Bool?, language: String?, region: String?, completion: @escaping (_ clientReturn: ClientReturn, _ movie: [MovieMDB],_ tv: [TVMDB], _ person: [PersonResults]) -> ()) -> (){
+  public static func multiSearch(query: String, page: Int?, includeAdult: Bool?, language: String?, region: String?, completion: @escaping (_ clientReturn: ClientReturn, _ medias: [Any]) -> ()) -> (){
     
     Client.Search("multi",  query: query, page: page, language: language, include_adult: includeAdult, year: nil, primary_release_year: nil, search_type: nil, first_air_date_year: nil){ apiReturn in
-      var person = [PersonResults]()
-      var tv = [TVMDB]()
-      var movie = [MovieMDB]()
+      var medias = [Any]()
       
       apiReturn.json?["results"].forEach({ string, json in
         if let mediaType = json["media_type"].string {
           switch mediaType {
           case "tv":
-            tv.append(TVMDB(results: json))
+            medias.append(TVMDB(results: json))
           case "movie":
-            movie.append(MovieMDB(results: json))
+            medias.append(MovieMDB(results: json))
           case "person":
-            person.append(PersonResults(results: json))
+            medias.append(PersonResults(results: json))
           default:
             break
           }
         }
       })
-      completion(apiReturn, movie, tv, person)
+      completion(apiReturn, medias)
     }
   }
 }
